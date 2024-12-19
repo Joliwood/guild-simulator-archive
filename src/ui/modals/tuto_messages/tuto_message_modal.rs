@@ -3,12 +3,21 @@ use crate::{
     structs::{
         general_structs::TutoMessagesModalVisible,
         player_stats::{TutoMessage, TutoMessages},
-        trigger_structs::{
-            CloseTutoMessageTrigger, SkipTutoMessageTrigger, TutoMessageModalTrigger,
-        },
     },
 };
 use bevy::prelude::*;
+
+#[derive(Component)]
+pub struct TutoMessageModalTrigger;
+
+#[derive(Component)]
+pub struct TutoDoneCloseModalTrigger;
+
+#[derive(Component)]
+pub struct CloseTutoMessageTrigger;
+
+#[derive(Component)]
+pub struct SkipTutoMessageTrigger;
 
 pub fn tuto_message_modal(
     mut commands: Commands,
@@ -53,7 +62,7 @@ pub fn tuto_message_modal(
             .with_children(|parent| {
                 parent
                     .spawn((
-                        UiImage {
+                        ImageNode {
                             image: my_assets.load("images/tuto/tuto_message_document.png"),
                             ..default()
                         },
@@ -116,7 +125,7 @@ pub fn tuto_message_modal(
                             .with_children(|parent| {
                                 for tuto_message_desc in first_tuto_message.messages.iter() {
                                     parent.spawn((
-                                        Text::new(tuto_message_desc),
+                                        Text::new(tuto_message_desc.to_string()),
                                         TextFont {
                                             font: my_assets.load(FONT_FIRA),
                                             font_size: 12.0,
@@ -155,7 +164,7 @@ pub fn tuto_message_modal(
 
                         // Avatar of the mayor
                         parent.spawn((
-                            UiImage {
+                            ImageNode {
                                 image: my_assets.load("images/tuto/mayor_avatar.png"),
                                 ..default()
                             },
@@ -189,7 +198,7 @@ pub fn tuto_message_modal(
                                 position_type: PositionType::Absolute,
                                 bottom: Val::Px(36.),
                                 left: Val::Px(140.),
-                                width: Val::Px(100.),
+                                width: Val::Px(150.),
                                 ..default()
                             },
                             SkipTutoMessageTrigger,

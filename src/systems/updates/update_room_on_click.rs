@@ -7,8 +7,8 @@ use crate::{
         },
         player_stats::{PlayerStats, TutoEnum, TutoMessages},
         recruits::SelectedRecruitForMission,
-        trigger_structs::RoomButtonTrigger,
     },
+    ui::hud_folder::hud::RoomButtonTrigger,
     utils::reset_modals_visibility,
 };
 use bevy::{

@@ -83,7 +83,7 @@ pub fn loots_and_start(
                                         },
                                         BorderColor(Color::BLACK),
                                         BorderRadius::all(Val::Px(10.)),
-                                        UiImage::from_atlas_image(
+                                        ImageNode::from_atlas_image(
                                             my_assets.load(item_loot_atlas_path),
                                             TextureAtlas {
                                                 index: item_image_atlas_index.into(),
@@ -128,7 +128,7 @@ pub fn loots_and_start(
                                                 height: Val::Percent(80.),
                                                 ..default()
                                             },
-                                            UiImage::from_atlas_image(
+                                            ImageNode::from_atlas_image(
                                                 my_assets.load("images/hud/hud_icon_atlas.png"),
                                                 TextureAtlas {
                                                     index: 3,

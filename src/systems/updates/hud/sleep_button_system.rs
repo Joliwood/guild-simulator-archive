@@ -6,7 +6,9 @@ use crate::{
         general_structs::{DayTime, NotificationCount},
         missions::{MissionReports, Missions},
         player_stats::{PlayerStats, TutoEnum, TutoMessages},
-        trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
+    },
+    ui::hud_folder::{
+        mayor_notification_toast::NotificationToastTrigger, sleep_button::SleepButtonTrigger,
     },
     utils::finish_mission,
 };
@@ -43,7 +45,7 @@ pub fn sleep_button_system(
                 // Increment the day in player_stats
                 player_stats.day += 1;
 
-                if player_stats.day == 2 {
+                if player_stats.day == 2 && player_stats.tuto.is_first_daily_events_done.is_none() {
                     player_stats.tuto.is_first_daily_events_done = Some(false);
                     tuto_messages.add_tuto_message(TutoEnum::DailyEvents);
                 }
@@ -96,6 +98,9 @@ pub fn sleep_button_system(
                     &mut player_stats,
                 );
                 day_time.reset();
+
+                player_stats.heal_all_injured_recruits();
+
                 border_color.0 = Color::NONE;
             }
             Interaction::Hovered => {

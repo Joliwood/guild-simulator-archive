@@ -1,12 +1,12 @@
-use crate::{
-    my_assets::FONT_FIRA,
-    structs::{
-        player_stats::PlayerStats,
-        trigger_structs::{GoldCountTrigger, GuildLvlTrigger},
-    },
-};
+use crate::{my_assets::FONT_FIRA, structs::player_stats::PlayerStats};
 use bevy::prelude::*;
 use pyri_tooltip::Tooltip;
+
+#[derive(Resource, Component)]
+pub struct GoldCountTrigger;
+
+#[derive(Component)]
+pub struct GuildLvlTrigger;
 
 pub fn left_hud(
     commands: &mut ChildBuilder,
@@ -15,20 +15,22 @@ pub fn left_hud(
     texture_atlas_layouts: &Handle<TextureAtlasLayout>,
 ) {
     commands
-        .spawn(Node {
-            display: Display::Flex,
-            flex_direction: FlexDirection::Row,
-            justify_content: JustifyContent::SpaceAround,
-            align_items: AlignItems::Center,
-            width: Val::Px(205.0),
-            padding: UiRect {
-                right: Val::Px(60.),
+        .spawn((
+            Name::new("HUD > Left Container"),
+            Node {
+                display: Display::Flex,
+                flex_direction: FlexDirection::Row,
+                justify_content: JustifyContent::SpaceAround,
+                align_items: AlignItems::Center,
+                width: Val::Px(205.0),
+                padding: UiRect {
+                    right: Val::Px(60.),
+                    ..default()
+                },
+                height: Val::Px(25.0),
                 ..default()
             },
-            height: Val::Px(25.0),
-            ..default()
-        })
-        .insert(Name::new("Left Container"))
+        ))
         .with_children(|left_container| {
             left_container
                 .spawn((
@@ -42,7 +44,7 @@ pub fn left_hud(
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        UiImage::from_atlas_image(
+                        ImageNode::from_atlas_image(
                             my_assets.load("images/hud/hud_icon_atlas.png"),
                             TextureAtlas {
                                 index: 3,
@@ -56,29 +58,27 @@ pub fn left_hud(
                         },
                     ));
                     // Adding 3 text elements
-                    parent
-                        .spawn((
-                            Text::new(player_stats.golds.to_string()),
-                            TextFont {
-                                font: my_assets.load(FONT_FIRA),
-                                font_size: 12.0,
-                                ..default()
-                            },
-                            TextColor(Color::WHITE),
-                        ))
-                        .insert(GoldCountTrigger);
+                    parent.spawn((
+                        Text::new(player_stats.golds.to_string()),
+                        TextFont {
+                            font: my_assets.load(FONT_FIRA),
+                            font_size: 12.0,
+                            ..default()
+                        },
+                        TextColor(Color::WHITE),
+                        GoldCountTrigger,
+                    ));
                 });
 
-            left_container
-                .spawn((
-                    Text::new(format!("{} : {}", t!("day"), player_stats.guild_level)),
-                    TextFont {
-                        font: my_assets.load(FONT_FIRA),
-                        font_size: 12.0,
-                        ..default()
-                    },
-                    TextColor(Color::WHITE),
-                ))
-                .insert(GuildLvlTrigger);
+            left_container.spawn((
+                Text::new(format!("{} : {}", t!("day"), player_stats.guild_level)),
+                TextFont {
+                    font: my_assets.load(FONT_FIRA),
+                    font_size: 12.0,
+                    ..default()
+                },
+                TextColor(Color::WHITE),
+                GuildLvlTrigger,
+            ));
         });
 }

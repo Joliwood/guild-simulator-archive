@@ -6,6 +6,12 @@ use crate::{
 };
 use bevy::prelude::*;
 
+#[derive(Component)]
+pub struct UpdateMapRecruitListParentTrigger;
+
+#[derive(Component)]
+pub struct UpdateMapRecruitListChildrenTrigger;
+
 pub fn map_recruit_list(
     parent: &mut ChildBuilder,
     my_assets: &Res<AssetServer>,
@@ -17,20 +23,24 @@ pub fn map_recruit_list(
         texture_atlas_layouts.add(recruit_layout);
 
     parent
-        .spawn(Node {
-            display: Display::Flex,
-            flex_direction: FlexDirection::Column,
-            justify_content: JustifyContent::FlexStart,
-            row_gap: Val::Px(5.0),
-            align_items: AlignItems::Center,
-            width: Val::Percent(100.),
-            height: Val::Percent(100.),
-            padding: UiRect {
-                left: Val::Px(2.),
+        .spawn((
+            Node {
+                display: Display::Flex,
+                flex_direction: FlexDirection::Column,
+                justify_content: JustifyContent::FlexStart,
+                row_gap: Val::Px(5.0),
+                align_items: AlignItems::Center,
+                width: Val::Percent(100.),
+                height: Val::Auto,
+                padding: UiRect {
+                    left: Val::Px(2.),
+                    ..default()
+                },
+                overflow: Overflow::scroll_y(),
                 ..default()
             },
-            ..default()
-        })
+            UpdateMapRecruitListParentTrigger,
+        ))
         .with_children(|left_container| {
             let sorted_recruits = sort_recruits_by_total_power(player_stats.recruits.clone());
 

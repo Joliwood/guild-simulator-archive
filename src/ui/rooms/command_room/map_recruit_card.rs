@@ -1,9 +1,13 @@
+use super::map_recruit_list::UpdateMapRecruitListChildrenTrigger;
 use crate::{
     enums::{ColorPaletteEnum, RecruitStateEnum},
     my_assets::FONT_FIRA,
-    structs::{general_structs::UniqueId, recruits::RecruitStats},
+    structs::recruits::RecruitStats,
 };
-use bevy::prelude::*;
+use bevy::{prelude::*, ui::widget::NodeImageMode};
+
+#[derive(Component)]
+pub struct SelectRecruitForMissionTrigger(pub RecruitStats);
 
 pub fn map_recruit_card(
     left_container: &mut ChildBuilder,
@@ -11,12 +15,17 @@ pub fn map_recruit_card(
     recruit: &RecruitStats,
     recruit_texture_atlas_layout: Handle<TextureAtlasLayout>,
 ) {
-    let recruit_attack = recruit.get_total_stats().0;
-    let recruit_defense = recruit.get_total_stats().1;
+    let (recruit_attack, recruit_defense) = recruit.get_total_stats();
 
     left_container
         .spawn((
+            Name::new("Map recruit button"),
             Button,
+            ImageNode {
+                image: my_assets.load("images/rooms/command_room/recruit_card_4.png"),
+                image_mode: NodeImageMode::Stretch,
+                ..default()
+            },
             Node {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Row,
@@ -24,7 +33,7 @@ pub fn map_recruit_card(
                 justify_content: JustifyContent::FlexStart,
                 column_gap: Val::Px(12.),
                 width: Val::Percent(100.),
-                height: Val::Px(60.),
+                height: Val::Px(65.),
                 padding: UiRect {
                     top: Val::Px(3.),
                     bottom: Val::Px(3.),
@@ -32,30 +41,24 @@ pub fn map_recruit_card(
                     right: Val::Px(3.),
                 },
                 border: UiRect::all(Val::Px(2.0)),
-                overflow: Overflow {
-                    x: OverflowAxis::Hidden,
-                    y: OverflowAxis::Hidden,
-                },
+                flex_shrink: 0.,
                 ..default()
             },
             BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
             BorderRadius::all(Val::Px(7.)),
-            UiImage {
-                image: my_assets.load("images/rooms/command_room/recruit_card_4.png"),
-                image_mode: NodeImageMode::Stretch,
+            GlobalZIndex(4),
+            UpdateMapRecruitListChildrenTrigger,
+            SelectRecruitForMissionTrigger(recruit.clone()),
+            PickingBehavior {
+                should_block_lower: false,
                 ..default()
             },
-            GlobalZIndex(3),
         ))
-        .insert((UniqueId("map_recruit_button".to_string()), recruit.clone()))
-        // .insert((
-        //     UniqueId("assign_recruit_to_mission".to_string()),
-        //     recruit.clone(),
-        // ))
         .with_children(|parent| {
             // Add an overlay if the recruit is in a mission
             if recruit.state == RecruitStateEnum::InMission
                 || recruit.state == RecruitStateEnum::WaitingReportSignature
+                || recruit.state == RecruitStateEnum::Injured
             {
                 parent
                     .spawn((
@@ -73,9 +76,13 @@ pub fn map_recruit_card(
                             },
                             ..default()
                         },
-                        GlobalZIndex(1),
                         BorderRadius::all(Val::Px(10.)),
                         BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.8)),
+                        PickingBehavior {
+                            should_block_lower: false,
+                            ..default()
+                        },
+                        GlobalZIndex(5),
                     ))
                     .with_children(|overlay| {
                         overlay.spawn((
@@ -86,21 +93,31 @@ pub fn map_recruit_card(
                                 ..default()
                             },
                             TextColor(Color::WHITE),
+                            PickingBehavior {
+                                should_block_lower: false,
+                                ..default()
+                            },
                         ));
                     });
             }
         })
         .with_children(|button| {
             button
-                .spawn(Node {
-                    display: Display::Flex,
-                    flex_direction: FlexDirection::Column,
-                    row_gap: Val::Px(5.),
-                    justify_content: JustifyContent::SpaceBetween,
-                    align_items: AlignItems::Center,
-                    width: Val::Px(30.),
-                    ..default()
-                })
+                .spawn((
+                    Node {
+                        display: Display::Flex,
+                        flex_direction: FlexDirection::Column,
+                        row_gap: Val::Px(5.),
+                        justify_content: JustifyContent::SpaceBetween,
+                        align_items: AlignItems::Center,
+                        width: Val::Px(30.),
+                        ..default()
+                    },
+                    PickingBehavior {
+                        should_block_lower: false,
+                        ..default()
+                    },
+                ))
                 .with_children(|parent| {
                     parent.spawn((
                         Text::new(recruit_attack.to_string()),
@@ -114,6 +131,10 @@ pub fn map_recruit_card(
                             ..default()
                         },
                         TextColor(Color::BLACK),
+                        PickingBehavior {
+                            should_block_lower: false,
+                            ..default()
+                        },
                     ));
 
                     parent.spawn((
@@ -128,27 +149,37 @@ pub fn map_recruit_card(
                             ..default()
                         },
                         TextColor(Color::BLACK),
+                        PickingBehavior {
+                            should_block_lower: false,
+                            ..default()
+                        },
                     ));
                 });
 
             // Recruit name
             button
-                .spawn((Node {
-                    position_type: PositionType::Absolute,
-                    display: Display::Flex,
-                    flex_direction: FlexDirection::Column,
-                    row_gap: Val::Px(5.),
-                    left: Val::Px(47.),
-                    width: Val::Percent(45.),
-                    height: Val::Percent(100.),
-                    align_items: AlignItems::Center,
-                    justify_content: JustifyContent::Center,
-                    overflow: Overflow {
-                        x: OverflowAxis::Hidden,
-                        y: OverflowAxis::Hidden,
+                .spawn((
+                    Node {
+                        position_type: PositionType::Absolute,
+                        display: Display::Flex,
+                        flex_direction: FlexDirection::Column,
+                        row_gap: Val::Px(5.),
+                        left: Val::Px(47.),
+                        width: Val::Percent(45.),
+                        height: Val::Percent(100.),
+                        align_items: AlignItems::Center,
+                        justify_content: JustifyContent::Center,
+                        overflow: Overflow {
+                            x: OverflowAxis::Hidden,
+                            y: OverflowAxis::Hidden,
+                        },
+                        ..default()
                     },
-                    ..default()
-                },))
+                    PickingBehavior {
+                        should_block_lower: false,
+                        ..default()
+                    },
+                ))
                 .with_children(|parent| {
                     parent.spawn((
                         Text::new(t!(&recruit.name)),
@@ -169,6 +200,10 @@ pub fn map_recruit_card(
                             ..default()
                         },
                         TextColor(Color::BLACK),
+                        PickingBehavior {
+                            should_block_lower: false,
+                            ..default()
+                        },
                     ));
 
                     parent.spawn((
@@ -179,24 +214,35 @@ pub fn map_recruit_card(
                             ..default()
                         },
                         TextColor(Color::BLACK),
+                        PickingBehavior {
+                            should_block_lower: false,
+                            ..default()
+                        },
                     ));
                 });
 
+            // Recruit picture
             button
-                .spawn(Node {
-                    width: Val::Px(72.),
-                    position_type: PositionType::Absolute,
-                    right: Val::Px(0.),
-                    height: Val::Percent(100.),
-                    overflow: Overflow {
-                        x: OverflowAxis::Hidden,
-                        y: OverflowAxis::Hidden,
+                .spawn((
+                    Node {
+                        width: Val::Px(72.),
+                        position_type: PositionType::Absolute,
+                        right: Val::Px(0.),
+                        height: Val::Percent(100.),
+                        overflow: Overflow {
+                            x: OverflowAxis::Hidden,
+                            y: OverflowAxis::Hidden,
+                        },
+                        ..default()
                     },
-                    ..default()
-                })
+                    PickingBehavior {
+                        should_block_lower: false,
+                        ..default()
+                    },
+                ))
                 .with_children(|parent| {
                     parent.spawn((
-                        UiImage::from_atlas_image(
+                        ImageNode::from_atlas_image(
                             my_assets.load("images/recruits/recruit_picture_atlas.png"),
                             TextureAtlas {
                                 index: recruit.image_atlas_index.into(),
@@ -207,10 +253,14 @@ pub fn map_recruit_card(
                             position_type: PositionType::Absolute,
                             right: Val::Px(0.),
                             width: Val::Percent(100.),
-                            height: Val::Px(60. * 2.),
+                            height: Val::Px(65. * 2.),
                             ..default()
                         },
-                        GlobalZIndex(2),
+                        GlobalZIndex(3),
+                        PickingBehavior {
+                            should_block_lower: false,
+                            ..default()
+                        },
                     ));
                 });
         });

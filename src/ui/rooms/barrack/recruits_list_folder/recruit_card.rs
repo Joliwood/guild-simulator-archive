@@ -6,9 +6,12 @@ use crate::{
         armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
     },
 };
-use bevy::prelude::*;
+use bevy::{prelude::*, ui::widget::NodeImageMode};
 
-use super::{recruit_attack::recruit_attack, recruit_defense::recruit_defense};
+use super::{
+    recruit_attack::recruit_attack, recruit_defense::recruit_defense,
+    recruits_list::UpdateBarrackRecruitListChildrenTrigger,
+};
 
 pub fn recruit_card(
     parent: &mut ChildBuilder,
@@ -21,11 +24,11 @@ pub fn recruit_card(
     parent
         .spawn((
             Button,
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/rooms/barrack/recruit_card_background.png"),
+                image_mode: NodeImageMode::Stretch,
                 ..default()
-            }
-            .with_mode(NodeImageMode::Stretch),
+            },
             Node {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Row,
@@ -44,6 +47,7 @@ pub fn recruit_card(
             },
             BorderColor(Color::BLACK),
             BorderRadius::all(Val::Px(10.)),
+            UpdateBarrackRecruitListChildrenTrigger,
         ))
         .insert(PickingBehavior {
             should_block_lower: false,
@@ -54,6 +58,7 @@ pub fn recruit_card(
             // Add an overlay if the recruit is in a mission
             if recruit.state == RecruitStateEnum::InMission
                 || recruit.state == RecruitStateEnum::WaitingReportSignature
+                || recruit.state == RecruitStateEnum::Injured
             {
                 parent
                     .spawn((
@@ -103,7 +108,7 @@ pub fn recruit_card(
             // Recruit portrait image (left-most side)
             button
                 .spawn((
-                    UiImage {
+                    ImageNode {
                         image: my_assets.load("images/rooms/barrack/recruit_avatar_card_frame.png"),
                         ..default()
                     },
@@ -153,10 +158,10 @@ pub fn recruit_card(
                             ..default()
                         })
                         .with_children(|frame| {
-                            // Image that is 200x400, clipped by the parent container
+                            // ImageNode that is 200x400, clipped by the parent container
                             frame
                                 .spawn((
-                                    UiImage::from_atlas_image(
+                                    ImageNode::from_atlas_image(
                                         my_assets.load("images/recruits/recruit_picture_atlas.png"),
                                         TextureAtlas {
                                             index: recruit.image_atlas_index.into(),

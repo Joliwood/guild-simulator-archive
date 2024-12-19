@@ -1,12 +1,12 @@
 use crate::{
     enums::ColorPaletteEnum,
     my_assets::FONT_FIRA,
-    structs::{
-        player_stats::{PlayerStats, TutoMessages},
-        trigger_structs::NotificationToastTrigger,
-    },
+    structs::player_stats::{PlayerStats, TutoMessages},
 };
 use bevy::prelude::*;
+
+#[derive(Debug, Component)]
+pub struct NotificationToastTrigger;
 
 pub fn mayor_notification_toast(
     mut commands: Commands,
@@ -24,6 +24,7 @@ pub fn mayor_notification_toast(
     if tuto_message_available > 0 && tuto_messages.get_first_tuto_message().is_some() {
         commands
             .spawn((
+                Name::new("---> Notification toast"),
                 Button,
                 Node {
                     position_type: PositionType::Absolute,
@@ -48,11 +49,10 @@ pub fn mayor_notification_toast(
                     bottom_left: Val::Px(10.),
                     bottom_right: Val::ZERO,
                 },
-                UiImage {
+                ImageNode {
                     image: my_assets.load("images/tuto/mayor_notification_frame.png"),
                     ..default()
                 },
-                Name::new("---> Notification toast"),
                 NotificationToastTrigger,
                 GlobalZIndex(5),
             ))
@@ -60,7 +60,7 @@ pub fn mayor_notification_toast(
             .with_children(|parent| {
                 // Avatar of the mayor
                 parent.spawn((
-                    UiImage {
+                    ImageNode {
                         image: my_assets.load("images/tuto/mayor_avatar.png"),
                         ..default()
                     },

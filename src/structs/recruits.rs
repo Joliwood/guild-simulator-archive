@@ -45,6 +45,26 @@ impl SelectedRecruitForEquipment {
 
         return None;
     }
+
+    pub fn desequip_armor(&mut self) {
+        if let Some(recruit) = &mut self.0 {
+            recruit.recruit_inventory.armor = None;
+        }
+    }
+
+    pub fn desequip_weapon(&mut self) {
+        if let Some(recruit) = &mut self.0 {
+            recruit.recruit_inventory.weapon = None;
+        }
+    }
+
+    pub fn get_armor(&self) -> Option<Armor> {
+        if let Some(recruit) = &self.0 {
+            return recruit.recruit_inventory.armor.clone();
+        }
+
+        return None;
+    }
 }
 
 #[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
@@ -265,6 +285,20 @@ impl RecruitStats {
             }
             ItemEnum::Scroll(scroll, _) => {
                 self.recruit_inventory.scrolls.push(scroll.clone());
+            }
+        }
+    }
+
+    pub fn desequip_item(&mut self, item: &ItemEnum) {
+        match item {
+            ItemEnum::Weapon(_) => {
+                self.recruit_inventory.weapon = None;
+            }
+            ItemEnum::Armor(_) => {
+                self.recruit_inventory.armor = None;
+            }
+            ItemEnum::Scroll(scroll, _) => {
+                self.recruit_inventory.scrolls.retain(|s| s != scroll);
             }
         }
     }

@@ -34,14 +34,14 @@ pub fn generate_all_missions() -> Missions {
                 },
                 ItemLoot {
                     item: ItemLootEnum::Armor(ArmorsEnum::MakeshiftVest),
-                    percent: 20,
+                    percent: 25,
                 },
                 ItemLoot {
-                    item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfExperienceI),
-                    percent: 30,
+                    item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfRawNaturalDefenseI),
+                    percent: 35,
                 },
             ]),
-            unlock_mission_ids: vec![4, 5],
+            unlock_mission_ids: vec![4],
         },
         Mission {
             days_left: None,
@@ -69,11 +69,11 @@ pub fn generate_all_missions() -> Missions {
                 },
                 ItemLoot {
                     item: ItemLootEnum::Armor(ArmorsEnum::UsedLeatherToga),
-                    percent: 10,
+                    percent: 20,
                 },
                 ItemLoot {
-                    item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheMiserI),
-                    percent: 10,
+                    item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfExperienceI),
+                    percent: 40,
                 },
             ]),
             unlock_mission_ids: vec![3],
@@ -104,11 +104,11 @@ pub fn generate_all_missions() -> Missions {
                 },
                 ItemLoot {
                     item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfReinforcementI),
-                    percent: 20,
+                    percent: 15,
                 },
                 ItemLoot {
-                    item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheMiserI),
-                    percent: 30,
+                    item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheOutstandingFighterI),
+                    percent: 20,
                 },
             ]),
             unlock_mission_ids: vec![],
@@ -208,16 +208,16 @@ pub fn generate_all_missions() -> Missions {
             golds: 50,
             loots: Loots(vec![
                 ItemLoot {
-                    item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfNaturalGrowthI),
-                    percent: 50,
-                },
-                ItemLoot {
                     item: ItemLootEnum::Armor(ArmorsEnum::RecycledMagicianRobe),
                     percent: 50,
                 },
                 ItemLoot {
                     item: ItemLootEnum::Armor(ArmorsEnum::LeatherTunic),
                     percent: 50,
+                },
+                ItemLoot {
+                    item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheMiserI),
+                    percent: 10,
                 },
             ]),
             unlock_mission_ids: vec![],

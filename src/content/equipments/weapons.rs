@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+
 use crate::{
     enums::{ClassEnum, ItemRaretyEnum},
     structs::equipments::Weapon,
@@ -43,7 +44,7 @@ impl WeaponsEnum {
                 price: 10,
                 rarety: ItemRaretyEnum::Common,
                 attack: Some(7),
-                defense: Some(3),
+                defense: Some(2),
                 ..Default::default()
             },
             WeaponsEnum::BowWithoutString => Weapon {
@@ -62,7 +63,7 @@ impl WeaponsEnum {
                 name: t!("weapon3_name").to_string(),
                 price: 5,
                 rarety: ItemRaretyEnum::Common,
-                attack: Some(6),
+                attack: Some(7),
                 ..Default::default()
             },
             WeaponsEnum::MagicToothpick => Weapon {
@@ -71,7 +72,7 @@ impl WeaponsEnum {
                 name: t!("weapon4_name").to_string(),
                 price: 2,
                 rarety: ItemRaretyEnum::Common,
-                optimized_for: (vec![ClassEnum::Mage], (5)),
+                optimized_for: (vec![ClassEnum::Mage], (20)),
                 attack: Some(2),
                 ..Default::default()
             },

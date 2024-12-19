@@ -1,4 +1,4 @@
-use crate::structs::trigger_structs::SelectMapTrigger;
+use crate::ui::rooms::command_room::map_card::SelectMapTrigger;
 use bevy::prelude::*;
 
 /// Select the recruit when the button is pressed

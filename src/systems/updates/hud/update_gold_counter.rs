@@ -1,4 +1,4 @@
-use crate::structs::{player_stats::PlayerStats, trigger_structs::GoldCountTrigger};
+use crate::{structs::player_stats::PlayerStats, ui::hud_folder::left_hud::GoldCountTrigger};
 use bevy::prelude::{Entity, Res, Single, Text, TextUiWriter, With};
 
 pub fn update_gold_counter(

@@ -22,7 +22,6 @@ pub fn calculate_total_apparition_chance(list: &[u16]) -> u16 {
     return total;
 }
 
-#[allow(dead_code)]
 #[derive(Debug, Clone, PartialEq)]
 pub enum ImpactAction<T> {
     Add(T),
@@ -158,7 +157,6 @@ pub struct DailyEvents(pub Vec<DailyEvent>);
 // Contents
 impl Default for DailyEvents {
     fn default() -> Self {
-        // WIP - 8 mayor moved from here
         let discussion_ids = [9, 7, 8];
         let spontaneous_application_ids = [2, 1];
 

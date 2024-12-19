@@ -284,6 +284,13 @@ impl Missions {
             }
         }
     }
+
+    pub fn is_mission_unlocked_by_id(&self, mission_id: u16) -> bool {
+        if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
+            return mission.unlocked;
+        }
+        return false;
+    }
 }
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
@@ -315,7 +322,7 @@ impl ItemLoot {
                 ..
             } => {
                 let armor = armor.get_armor();
-                let mut description = armor.name.to_string();
+                let mut description = format!("{}\n", armor.name);
                 let price_range = calculate_price_range(armor.price);
 
                 if let Some(attack) = armor.attack {
@@ -324,6 +331,17 @@ impl ItemLoot {
 
                 if let Some(defense) = armor.defense {
                     description.push_str(&format!("\n{}: {}", t!("defense"), defense));
+                }
+
+                if !armor.optimized_for.0.is_empty() {
+                    description.push_str(&format!(
+                        "\n\n{} :",
+                        t!("tooltip_optimized_for", points = armor.optimized_for.1),
+                    ));
+
+                    for classe in &armor.optimized_for.0 {
+                        description.push_str(&format!("\n- {}", classe));
+                    }
                 }
 
                 description.push_str(&format!(
@@ -341,11 +359,11 @@ impl ItemLoot {
                 ..
             } => {
                 let scroll = scroll.get_scroll();
-                let mut description = scroll.name.to_string();
+                let mut description = format!("{}\n", scroll.name);
                 let price_range = calculate_price_range(scroll.price);
 
                 if let Some(attack) = scroll.attack {
-                    description.push_str(&format!("\n\n{}: {}", t!("attack"), attack));
+                    description.push_str(&format!("\n{}: {}", t!("attack"), attack));
                 }
 
                 if let Some(defense) = scroll.defense {
@@ -371,7 +389,7 @@ impl ItemLoot {
                 ..
             } => {
                 let weapon = weapon.get_weapon();
-                let mut description = weapon.name.to_string();
+                let mut description = format!("{}\n", weapon.name);
                 let price_range = calculate_price_range(weapon.price);
 
                 if let Some(attack) = weapon.attack {
@@ -380,6 +398,17 @@ impl ItemLoot {
 
                 if let Some(defense) = weapon.defense {
                     description.push_str(&format!("\n{}: {}", t!("defense"), defense));
+                }
+
+                if !weapon.optimized_for.0.is_empty() {
+                    description.push_str(&format!(
+                        "\n\n{} :",
+                        t!("tooltip_optimized_for", points = weapon.optimized_for.1),
+                    ));
+
+                    for classe in &weapon.optimized_for.0 {
+                        description.push_str(&format!("\n- {}", classe));
+                    }
                 }
 
                 description.push_str(&format!(

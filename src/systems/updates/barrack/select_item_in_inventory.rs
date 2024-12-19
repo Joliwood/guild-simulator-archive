@@ -2,8 +2,8 @@ use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
     structs::{
-        equipments::ItemEnum, player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
-        trigger_structs::ItemInInventoryTrigger,
+        equipments::ItemEnum, general_structs::ItemInInventoryTrigger, player_stats::PlayerStats,
+        recruits::SelectedRecruitForEquipment,
     },
     ui::ui_constants::WOOD_COLOR,
     utils::equip_recruit_inventory,

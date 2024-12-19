@@ -1,12 +1,15 @@
-use crate::{
-    my_assets::FONT_FIRA,
-    structs::{
-        player_stats::PlayerStats,
-        trigger_structs::{RecruitCountTrigger, ReputationCountTrigger, ToxicityCountTrigger},
-    },
-};
+use crate::{my_assets::FONT_FIRA, structs::player_stats::PlayerStats};
 use bevy::prelude::*;
 use pyri_tooltip::Tooltip;
+
+#[derive(Component)]
+pub struct RecruitCountTrigger;
+
+#[derive(Component)]
+pub struct ReputationCountTrigger;
+
+#[derive(Component)]
+pub struct ToxicityCountTrigger;
 
 pub fn right_hud(
     commands: &mut ChildBuilder,
@@ -38,7 +41,7 @@ pub fn right_hud(
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        UiImage::from_atlas_image(
+                        ImageNode::from_atlas_image(
                             my_assets.load("images/hud/hud_icon_atlas.png"),
                             TextureAtlas {
                                 index: 0,
@@ -77,7 +80,7 @@ pub fn right_hud(
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        UiImage::from_atlas_image(
+                        ImageNode::from_atlas_image(
                             my_assets.load("images/hud/hud_icon_atlas.png"),
                             TextureAtlas {
                                 index: 6,
@@ -116,7 +119,7 @@ pub fn right_hud(
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        UiImage::from_atlas_image(
+                        ImageNode::from_atlas_image(
                             my_assets.load("images/hud/hud_icon_atlas.png"),
                             TextureAtlas {
                                 index: 5,
@@ -149,7 +152,7 @@ pub fn right_hud(
                     height: Val::Px(16.),
                     ..default()
                 },
-                UiImage::from_atlas_image(
+                ImageNode::from_atlas_image(
                     my_assets.load("images/hud/hud_icon_atlas.png"),
                     TextureAtlas {
                         index: 7,

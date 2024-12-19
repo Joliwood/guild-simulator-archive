@@ -1,7 +1,9 @@
-use crate::structs::{
-    general_structs::TutoMessagesModalVisible,
-    player_stats::{PlayerStats, TutoMessages},
-    trigger_structs::SkipTutoMessageTrigger,
+use crate::{
+    structs::{
+        general_structs::TutoMessagesModalVisible,
+        player_stats::{PlayerStats, TutoMessages},
+    },
+    ui::modals::tuto_messages::tuto_message_modal::SkipTutoMessageTrigger,
 };
 use bevy::prelude::*;
 
@@ -16,7 +18,7 @@ pub fn skip_tuto(
             Interaction::Pressed => {
                 tuto_message_modal_visibility.0 = false;
                 tuto_messages.0.clear();
-                player_stats.tuto.reset();
+                player_stats.tuto.skip_tuto();
             }
             Interaction::Hovered => {
                 // window.cursor.icon = CursorIcon::Pointer;

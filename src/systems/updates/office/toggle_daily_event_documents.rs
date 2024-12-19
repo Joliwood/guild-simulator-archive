@@ -7,8 +7,8 @@ use crate::{
             TutoMessagesModalVisible,
         },
         recruits::SelectedRecruitForMission,
-        trigger_structs::DailyEventTrigger,
     },
+    ui::rooms::office::daily_event_documents::DailyEventTrigger,
     utils::reset_modals_visibility,
 };
 use bevy::prelude::*;

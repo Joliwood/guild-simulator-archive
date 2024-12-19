@@ -17,9 +17,8 @@ pub enum ClassEnum {
 // #[derive(Component, Debug, PartialEq)]
 #[derive(Clone, Eq, PartialEq, Debug, Hash, Default, States, Component)]
 ///  Where the player is
-///  (the player can navigate between rooms with arrows) :
 ///
-/// - Office : Main place, at our desk with a top view
+/// - Office : Main place, at our desk
 /// - Store : The counter when player can buy stuff from a marchand (once at a time, with a CD), or sell stuff
 /// - Barrack : Where the troups are, can equip them with stuff, check their level, hp, etc
 /// - CommandRoom : Where the player can send troups to missions, check the missions, etc
@@ -133,14 +132,15 @@ pub enum RecruitStateEnum {
     WaitingReportSignature,
 }
 
+// WIP - Ajouter i18n
 impl RecruitStateEnum {
     pub fn get_description(&self) -> &'static str {
         match self {
-            RecruitStateEnum::Available => "Available",
-            RecruitStateEnum::Injured => "Injured",
-            RecruitStateEnum::InMission => "In Mission",
-            RecruitStateEnum::InRecuperation => "In Recuperation",
-            RecruitStateEnum::WaitingReportSignature => "Waiting its mission report signature",
+            RecruitStateEnum::Available => "recruit_state_available",
+            RecruitStateEnum::Injured => "recruit_state_injured",
+            RecruitStateEnum::InMission => "recruit_state_in_mission",
+            RecruitStateEnum::InRecuperation => "recruit_state_in_recuperation",
+            RecruitStateEnum::WaitingReportSignature => "recruit_state_waiting_report_signature",
         }
     }
 }

@@ -8,7 +8,7 @@ pub fn map_description(
 ) {
     parent
         .spawn((
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/maps/map_description.png"),
                 ..default()
             },

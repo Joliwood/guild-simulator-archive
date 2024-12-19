@@ -2,11 +2,15 @@ use super::{
     map_description::map_description, map_list::map_list, map_on_table::map_on_table,
     map_recruit_list::map_recruit_list,
 };
-use crate::structs::{
-    maps::{Maps, SelectedMapId},
-    missions::Missions,
-    player_stats::PlayerStats,
-    trigger_structs::ResetRoomTrigger,
+use crate::{
+    enums::RoomEnum,
+    structs::{
+        general_structs::RoomTag,
+        maps::{Maps, SelectedMapId},
+        missions::Missions,
+        player_stats::PlayerStats,
+    },
+    systems::updates::init_rooms::ResetRoomTrigger,
 };
 use bevy::prelude::*;
 
@@ -23,20 +27,23 @@ pub fn room_command_room(
     let selected_map = maps.get_map_by_optional_id(selected_map_id.0);
 
     commands
-        .spawn(Node {
-            width: Val::Vw(100.),
-            height: Val::Vh(100.),
-            display: Display::Flex,
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,
-            ..default()
-        })
-        .insert(Name::new("Command room"))
-        .insert(ResetRoomTrigger)
-        // Background Image for the Command Room
+        .spawn((
+            Name::new("Command room"),
+            Node {
+                width: Val::Vw(100.),
+                height: Val::Vh(100.),
+                display: Display::Flex,
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                ..default()
+            },
+            RoomTag(RoomEnum::CommandRoom),
+            ResetRoomTrigger,
+        ))
+        // Background ImageNode for the Command Room
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn((
-                UiImage {
+                ImageNode {
                     image: my_assets.load("images/rooms/command_room/command_room_background.png"),
                     ..default()
                 },
@@ -55,7 +62,7 @@ pub fn room_command_room(
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container
                 .spawn((
-                    UiImage {
+                    ImageNode {
                         image: my_assets.load("images/rooms/command_room/command_table.png"),
                         ..default()
                     },

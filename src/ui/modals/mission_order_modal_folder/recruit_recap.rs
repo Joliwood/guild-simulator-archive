@@ -20,7 +20,7 @@ pub fn recruit_recap(
     let recruit_texture_atlas_layout: Handle<TextureAtlasLayout> =
         texture_atlas_layouts.add(recruit_layout);
 
-    // Recruits (Image / Name / Stats / Node Container)
+    // Recruits (ImageNode / Name / Stats / Node Container)
     parent
         .spawn((
             Node {
@@ -78,7 +78,7 @@ pub fn recruit_recap(
                     .with_children(|parent| {
                         // Recruit image
                         parent.spawn((
-                            UiImage::from_atlas_image(
+                            ImageNode::from_atlas_image(
                                 my_assets.load("images/recruits/recruit_picture_atlas.png"),
                                 TextureAtlas {
                                     index: recruit.image_atlas_index.into(),

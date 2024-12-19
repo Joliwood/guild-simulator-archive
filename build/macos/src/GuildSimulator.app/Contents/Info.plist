@@ -9,7 +9,7 @@
     <key>CFBundleIdentifier</key>
     <string>com.yourcompany.GuildSimulator</string>
     <key>CFBundleVersion</key>
-    <string>v0.0.4-3</string>
+    <string>v0.1.0</string>
     <key>CFBundleExecutable</key>
     <string>guild_simulator</string>
     <key>CFBundleIconFile</key>

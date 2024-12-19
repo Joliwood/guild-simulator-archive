@@ -36,7 +36,7 @@ pub fn recruit_sent_picture(
             ));
 
             recruit_block.spawn((
-                UiImage::from_atlas_image(
+                ImageNode::from_atlas_image(
                     my_assets.load("images/recruits/recruit_picture_atlas.png"),
                     TextureAtlas {
                         index: recruit_sent.image_atlas_index.into(),
@@ -49,7 +49,7 @@ pub fn recruit_sent_picture(
                     height: Val::Percent(100.),
                     ..default()
                 },
-                GlobalZIndex(1),
+                GlobalZIndex(4),
             ));
         });
 }

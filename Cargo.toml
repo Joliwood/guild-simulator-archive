@@ -6,61 +6,33 @@ authors = ["Guillaume Jolibois <jolibois.contact@gmail.com>"]
 exclude = ["dist", "build", "assets", "credits"]
 
 [dependencies]
-bevy = { version = "0.15.0-rc.3" }
-# bevy = { git = "https://github.com/bevyengine/bevy", branch = "main" }
-# bevy-inspector-egui  = { git = "https://github.com/jakobhellermann/bevy-inspector-egui", tag = "v0.27.0" }
-# bevy_asset_loader = { version = "0.15.0-rc.3", features = ["2d"]}
-uuid = "1.10.0"
+bevy = "0.15"
+# bevy-inspector-egui = "0.28.0"
+uuid = "1.11.0"
 rand = "0.8.4"
-serde = { version = "1.0", features = ["derive"] }
-pyri_tooltip = { git = "https://github.com/benfrankel/pyri_tooltip", branch = "main"}
-colored = "2.0"
-# keep the following in sync with Bevy's dependencies
-unic-langid = "0.9.5"
-accesskit = "0.17.0"
+serde = { version = "1.0.215", features = ["derive"] }
+pyri_tooltip = "0.2.0"
+colored = "2.2.0"
 rust-i18n = "3.1.2"
 
 # This is used by trunk as it doesn't support custom profiles: https://github.com/trunk-rs/trunk/issues/605
 # xbuild also uses this profile for building android AABs because I couldn't find a configuration for it
 [profile.release]
 opt-level = "s"
-lto = true
-codegen-units = 1
-strip = true
 
-# Profile for distribution
 [profile.dist]
 inherits = "release"
-opt-level = 3
+opt-level = 0
 lto = true
 codegen-units = 1
 strip = true
 
-[profile.dev]
-opt-level = 2               # Moderate optimizations; 0-3, higher improves runtime at the cost of build time
-debug = true                 # Retain debug information for debuggers
-debug-assertions = true      # Keep debug assertions like `assert!` enabled
-overflow-checks = true       # Enable runtime overflow checks
-lto = "off"                  # Disable Link Time Optimization for faster builds
-codegen-units = 4            # Parallelize code generation to improve build times
-incremental = true           # Enable incremental compilation to speed up rebuilds
-panic = "unwind"             # Preserve unwinding for easier debugging (can be "abort" for slight performance boost)
-strip = false                # Retain debug symbols in binaries
+[build-dependencies]
+embed-resource = "3.0.1"
 
 [target.x86_64h-apple-darwin]
 
-# Enable a large amount of optimization in the dev profile for dependencies.
-[profile.dev.package."*"]
-opt-level = 3
-
-# Override some settings for native builds.
 [profile.release-native]
-# Default to release profile values.
 inherits = "release"
-# Optimize with performance in mind.
-opt-level = 3
-# Keep debug information in the binary.
+opt-level = 0
 strip = "none"
-
-[build-dependencies]
-embed-resource = "1"

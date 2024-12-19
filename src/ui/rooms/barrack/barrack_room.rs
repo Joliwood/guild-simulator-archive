@@ -3,9 +3,12 @@ use super::{
     recruit_overview_folder::recruit_overview::recruit_overview,
     recruits_list_folder::recruits_list::spawn_left_container,
 };
-use crate::structs::{
-    player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
-    trigger_structs::ResetRoomTrigger,
+use crate::{
+    enums::RoomEnum,
+    structs::{
+        general_structs::RoomTag, player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
+    },
+    systems::updates::init_rooms::ResetRoomTrigger,
 };
 use bevy::prelude::*;
 
@@ -29,12 +32,13 @@ pub fn spawn_room_barrack(
                 ..default()
             },
             GlobalZIndex(-1),
+            RoomTag(RoomEnum::Barrack),
         ))
         .insert(Name::new("Room barrack"))
         .insert(ResetRoomTrigger)
         .with_children(|parent| {
             parent.spawn((
-                UiImage {
+                ImageNode {
                     image: my_assets.load("images/rooms/barrack/barrack_background.png"),
                     ..default()
                 },

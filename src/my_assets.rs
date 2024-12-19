@@ -21,81 +21,79 @@ use crate::{
 // pub struct MyAssets {
 //     // --- Recruits --- //
 //     #[asset(path = "images/recruits/recruit_picture_atlas.png")]
-//     pub recruit_picture_atlas: Handle<Image>,
+//     pub recruit_picture_atlas: Handle<ImageNode>,
 //     // #[asset(path = "images/recruits/recruit_card_win_percent.png")]
-//     // pub recruit_card_win_percent: Handle<Image>,
+//     // pub recruit_card_win_percent: Handle<ImageNode>,
 
 //     // --- Ennemies --- //
 //     #[asset(path = "images/missions/ennemy_picture_atlas.png")]
-//     pub ennemy_image_handle: Handle<Image>,
+//     pub ennemy_image_handle: Handle<ImageNode>,
 
 //     // --- Equipments --- //
 //     #[asset(path = "images/equipments/empty_inventory_slot.png")]
-//     pub empty_inventory_slot: Handle<Image>,
+//     pub empty_inventory_slot: Handle<ImageNode>,
 //     #[asset(path = "images/equipments/armors_atlas.png")]
-//     pub armors_atlas: Handle<Image>,
+//     pub armors_atlas: Handle<ImageNode>,
 //     #[asset(path = "images/equipments/weapons_atlas.png")]
-//     pub weapons_atlas: Handle<Image>,
+//     pub weapons_atlas: Handle<ImageNode>,
 //     #[asset(path = "images/equipments/scrolls_atlas.png")]
-//     pub scrolls_atlas: Handle<Image>,
+//     pub scrolls_atlas: Handle<ImageNode>,
 
 //     // --- HUD --- //
 //     #[asset(path = "images/hud/art_v0_buttons.png")]
-//     pub art_v0_buttons: Handle<Image>,
+//     pub art_v0_buttons: Handle<ImageNode>,
 //     #[asset(path = "images/hud/buttons_atlas.png")]
-//     pub buttons_atlas: Handle<Image>,
+//     pub buttons_atlas: Handle<ImageNode>,
 //     #[asset(path = "images/hud/gold.png")]
-//     pub gold: Handle<Image>,
+//     pub gold: Handle<ImageNode>,
 //     #[asset(path = "images/hud/notification_atlas.png")]
-//     pub notification_atlas: Handle<Image>,
+//     pub notification_atlas: Handle<ImageNode>,
 //     #[asset(path = "images/hud/play.png")]
-//     pub _play: Handle<Image>,
+//     pub _play: Handle<ImageNode>,
 //     #[asset(path = "images/hud/hud3.png")]
-//     pub hud: Handle<Image>,
+//     pub hud: Handle<ImageNode>,
 //     #[asset(path = "images/hud/hud_icon_atlas.png")]
-//     pub hud_icon_atlas: Handle<Image>,
+//     pub hud_icon_atlas: Handle<ImageNode>,
 
 //     // --- Rooms > Barrack --- //
 //     #[asset(path = "images/rooms/barrack/barrack_background.png")]
-//     pub barrack_background: Handle<Image>,
+//     pub barrack_background: Handle<ImageNode>,
 //     #[asset(path = "images/rooms/barrack/inventory_container.png")]
-//     pub inventory_container: Handle<Image>,
+//     pub inventory_container: Handle<ImageNode>,
 //     #[asset(path = "images/rooms/barrack/recruit_frame.png")]
-//     pub recruit_frame: Handle<Image>,
+//     pub recruit_frame: Handle<ImageNode>,
 //     #[asset(path = "images/rooms/barrack/recruit_infos.png")]
-//     pub recruit_infos: Handle<Image>,
+//     pub recruit_infos: Handle<ImageNode>,
 
 //     // --- Rooms > Office ---//
 //     #[asset(path = "images/rooms/office/office_room_background.png")]
-//     pub office_background: Handle<Image>,
-//     #[asset(path = "images/rooms/office/desk.png")]
-//     pub desk: Handle<Image>,
+//     pub office_background: Handle<ImageNode>,
 //     #[asset(path = "images/rooms/office/mission_notification_document.png")]
-//     pub mission_notification_document: Handle<Image>,
+//     pub mission_notification_document: Handle<ImageNode>,
 //     #[asset(path = "images/rooms/office/talents_on_desk.png")]
-//     pub talents_on_desk: Handle<Image>,
+//     pub talents_on_desk: Handle<ImageNode>,
 //     #[asset(path = "images/rooms/office/notification_token_in_wood.png")]
-//     pub notification_token_in_wood: Handle<Image>,
+//     pub notification_token_in_wood: Handle<ImageNode>,
 //     #[asset(path = "images/rooms/office/set_of_keys.png")]
-//     pub set_of_keys: Handle<Image>,
+//     pub set_of_keys: Handle<ImageNode>,
 //     #[asset(path = "images/rooms/office/daily_event_documents_on_desk.png")]
-//     pub daily_event_documents_on_desk: Handle<Image>,
+//     pub daily_event_documents_on_desk: Handle<ImageNode>,
 //     #[asset(path = "images/rooms/office/daily_event_document.png")]
-//     pub daily_event_document: Handle<Image>,
+//     pub daily_event_document: Handle<ImageNode>,
 
 //     // --- Rooms > Command room --- //
 //     #[asset(path = "images/rooms/command_room/command_room_background.png")]
-//     pub command_room_background: Handle<Image>,
+//     pub command_room_background: Handle<ImageNode>,
 //     #[asset(path = "images/rooms/command_room/command_table.png")]
-//     pub command_table: Handle<Image>,
+//     pub command_table: Handle<ImageNode>,
 //     #[asset(path = "images/rooms/command_room/wood_box_container.png")]
-//     pub wood_box_container: Handle<Image>,
+//     pub wood_box_container: Handle<ImageNode>,
 //     #[asset(path = "images/rooms/command_room/recruit_card.png")]
-//     pub recruit_card: Handle<Image>,
+//     pub recruit_card: Handle<ImageNode>,
 
 //     // --- Rooms > Store --- //
 //     #[asset(path = "images/rooms/store/store.png")]
-//     pub store: Handle<Image>,
+//     pub store: Handle<ImageNode>,
 
 //     // --- Fonts --- //
 //     #[asset(path = "fonts/FiraSans-Bold.ttf")]
@@ -129,43 +127,43 @@ use crate::{
 
 //     // --- Maps --- //
 //     #[asset(path = "images/maps/map_tuto.png")]
-//     pub map_tuto: Handle<Image>,
+//     pub map_tuto: Handle<ImageNode>,
 //     #[asset(path = "images/maps/map_description.png")]
-//     pub map_description: Handle<Image>,
+//     pub map_description: Handle<ImageNode>,
 //     #[asset(path = "images/maps/map_atlas.png")]
-//     pub map_atlas: Handle<Image>,
+//     pub map_atlas: Handle<ImageNode>,
 //     #[asset(path = "images/maps/map_card.png")]
-//     pub map_card: Handle<Image>,
+//     pub map_card: Handle<ImageNode>,
 //     #[asset(path = "images/maps/map_type_atlas.png")]
-//     pub map_type_atlas: Handle<Image>,
+//     pub map_type_atlas: Handle<ImageNode>,
 //     #[asset(path = "images/maps/limited_time.png")]
-//     pub limited_time: Handle<Image>,
+//     pub limited_time: Handle<ImageNode>,
 
 //     // --- Missions --- //
 //     #[asset(path = "images/missions/c1_mission_1.png")]
-//     pub c1_mission_1: Handle<Image>,
+//     pub c1_mission_1: Handle<ImageNode>,
 //     #[asset(path = "images/missions/c1_mission_2.png")]
-//     pub c1_mission_2: Handle<Image>,
+//     pub c1_mission_2: Handle<ImageNode>,
 //     #[asset(path = "images/missions/c1_mission_3.png")]
-//     pub c1_mission_3: Handle<Image>,
+//     pub c1_mission_3: Handle<ImageNode>,
 //     #[asset(path = "images/missions/c1_mission_4.png")]
-//     pub c1_mission_4: Handle<Image>,
+//     pub c1_mission_4: Handle<ImageNode>,
 //     #[asset(path = "images/missions/c1_mission_5.png")]
-//     pub c1_mission_5: Handle<Image>,
+//     pub c1_mission_5: Handle<ImageNode>,
 //     #[asset(path = "images/missions/c1_mission_6.png")]
-//     pub c1_mission_6: Handle<Image>,
+//     pub c1_mission_6: Handle<ImageNode>,
 //     #[asset(path = "images/missions/recap_guild_scroll.png")]
-//     pub recap_guild_scroll: Handle<Image>,
+//     pub recap_guild_scroll: Handle<ImageNode>,
 
 //     // --- Daily events --- //
 //     #[asset(path = "images/daily_events/daily_discussions_atlas.png")]
-//     pub daily_discussions_atlas: Handle<Image>,
+//     pub daily_discussions_atlas: Handle<ImageNode>,
 //     #[asset(path = "images/daily_events/daily_spontaneous_applications_atlas.png")]
-//     pub daily_spontaneous_applications_atlas: Handle<Image>,
+//     pub daily_spontaneous_applications_atlas: Handle<ImageNode>,
 // }
 
 // impl MyAssets {
-//     pub fn get_item_atlas_path(&self, item: &ItemEnum) -> Handle<Image> {
+//     pub fn get_item_atlas_path(&self, item: &ItemEnum) -> Handle<ImageNode> {
 //         return match item {
 //             ItemEnum::Weapon(_) => self.weapons_atlas.clone(),
 //             ItemEnum::Armor(_) => self.armors_atlas.clone(),
@@ -173,7 +171,7 @@ use crate::{
 //         };
 //     }
 
-//     pub fn get_item_loot_atlas_path(&self, item: &ItemLootEnum) -> Handle<Image> {
+//     pub fn get_item_loot_atlas_path(&self, item: &ItemLootEnum) -> Handle<ImageNode> {
 //         return match item {
 //             ItemLootEnum::Weapon(_) => self.weapons_atlas.clone(),
 //             ItemLootEnum::Armor(_) => self.armors_atlas.clone(),
@@ -181,7 +179,7 @@ use crate::{
 //         };
 //     }
 
-//     pub fn get_map_type_atlas(&self) -> Handle<Image> {
+//     pub fn get_map_type_atlas(&self) -> Handle<ImageNode> {
 //         return self.map_type_atlas.clone();
 //     }
 
@@ -202,13 +200,13 @@ use crate::{
 //         };
 //     }
 
-//     pub fn get_image_map(&self, map_enum: MapImageEnum) -> Handle<Image> {
+//     pub fn get_image_map(&self, map_enum: MapImageEnum) -> Handle<ImageNode> {
 //         return match map_enum {
 //             MapImageEnum::CampagnTuto => self.map_tuto.clone(),
 //         };
 //     }
 
-//     pub fn get_mission_image(&self, mission_id: u16) -> Handle<Image> {
+//     pub fn get_mission_image(&self, mission_id: u16) -> Handle<ImageNode> {
 //         return match mission_id {
 //             0 => self.c1_mission_1.clone(),
 //             1 => self.c1_mission_2.clone(),

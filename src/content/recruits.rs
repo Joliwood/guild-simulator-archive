@@ -26,7 +26,7 @@ impl RecruitEnum {
                 name: "Jean-Louis-David".to_string(),
                 recruit_inventory: RecruitInventory::default(),
                 state: RecruitStateEnum::Available,
-                attack: 10,
+                attack: 7,
                 defense: 4,
             },
             RecruitEnum::Hubert => RecruitStats {
@@ -37,9 +37,14 @@ impl RecruitEnum {
                 level: 1,
                 max_experience: 100,
                 name: "Hubert".to_string(),
+                // recruit_inventory: RecruitInventory {
+                //     weapon: Some(WeaponsEnum::MagicToothpick.get_weapon()),
+                //     armor: Some(ArmorsEnum::LeatherTunic.get_armor()),
+                //     scrolls: vec![],
+                // },
                 recruit_inventory: RecruitInventory::default(),
                 state: RecruitStateEnum::Available,
-                attack: 7,
+                attack: 8,
                 defense: 2,
             },
             RecruitEnum::BigNoob => RecruitStats {

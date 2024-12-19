@@ -14,7 +14,7 @@ pub fn mission_recap(
     let ennemy_texture_atlas_layout: Handle<TextureAtlasLayout> =
         texture_atlas_layouts.add(ennemy_layout);
 
-    // Mission Image and Description (A / B)
+    // Mission ImageNode and Description (A / B)
     parent
         .spawn((
             Node {
@@ -52,7 +52,7 @@ pub fn mission_recap(
                 })
                 .with_children(|parent| {
                     parent.spawn((
-                        UiImage::from_atlas_image(
+                        ImageNode::from_atlas_image(
                             my_assets.load("images/missions/ennemy_picture_atlas.png"),
                             TextureAtlas {
                                 index: mission.ennemy.image_atlas_index.into(),
@@ -128,6 +128,19 @@ pub fn mission_recap(
                     // Enemy defense
                     parent.spawn((
                         Text::new(format!("DEF : {}", mission.ennemy.defense)),
+                        TextFont {
+                            font: my_assets.load(FONT_FIRA),
+                            font_size: 14.0,
+                            ..default()
+                        },
+                        TextColor(Color::BLACK),
+                    ));
+
+                    // Mission days
+                    parent.spawn((
+                        Text::new(
+                            t!("duration_for_mission_order", days_nb = mission.days).to_string(),
+                        ),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 14.0,

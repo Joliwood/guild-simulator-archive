@@ -7,8 +7,8 @@ use crate::{
             TutoMessagesModalVisible,
         },
         recruits::SelectedRecruitForMission,
-        trigger_structs::MissionReportTrigger,
     },
+    ui::rooms::office::mission_report_documents::MissionReportTrigger,
     utils::reset_modals_visibility,
 };
 use bevy::prelude::*;

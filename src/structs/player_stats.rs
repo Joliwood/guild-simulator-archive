@@ -10,7 +10,7 @@ use crate::enums::{RecruitStateEnum, RoomEnum};
 use bevy::prelude::*;
 use uuid::Uuid;
 
-#[derive(Default, Component, Resource, Clone)]
+#[derive(Default, Component, Resource, Clone, PartialEq)]
 pub struct Stats {
     pub golds_earned: i32,
     pub mission_completed: u16,
@@ -21,11 +21,12 @@ pub struct Stats {
 /// When it is None, the tutorial is not available
 /// When it is Some(false), the tutorial is available but not done
 /// When it is Some(true), the tutorial is done
-#[derive(Default, Component, Resource, Clone)]
+#[derive(Default, Component, Resource, Clone, PartialEq)]
 pub struct Tuto {
     pub is_barrack_room_tuto_done: Option<bool>,
     pub is_command_room_tuto_done: Option<bool>,
     pub is_first_daily_events_done: Option<bool>,
+    pub is_tuto_completed: bool,
 }
 
 impl Tuto {
@@ -50,7 +51,7 @@ impl Tuto {
         return count;
     }
 
-    pub fn reset(&mut self) {
+    pub fn skip_tuto(&mut self) {
         self.is_barrack_room_tuto_done = Some(true);
         self.is_command_room_tuto_done = Some(true);
         self.is_first_daily_events_done = Some(true);
@@ -107,6 +108,7 @@ impl TutoMessages {
                     messages: vec![
                         t!("tuto_message_barrack_desc_1").to_string(),
                         t!("tuto_message_barrack_desc_2").to_string(),
+                        t!("tuto_message_barrack_desc_3").to_string(),
                     ],
                 });
             }
@@ -155,7 +157,7 @@ impl TutoMessages {
     }
 }
 
-#[derive(Component, Resource, Clone)]
+#[derive(Component, Resource, Clone, PartialEq)]
 pub struct PlayerStats {
     pub day: u16,
     pub experience: u32,
@@ -177,7 +179,7 @@ impl Default for PlayerStats {
         Self {
             day: 1,
             experience: 0,
-            golds: 0,
+            golds: 30,
             guild_level: 1,
             inventory: vec![
                 // ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
@@ -187,7 +189,7 @@ impl Default for PlayerStats {
                 // ItemEnum::Scroll(ScrollsEnum::ScrollOfRawAttackI.get_scroll(), 2),
                 // ItemEnum::Scroll(ScrollsEnum::ScrollOfGaladornFailedPower.get_scroll(), 2),
             ],
-            max_experience: 100,
+            max_experience: 1000,
             max_inventory_size: 50,
             recruits: vec![
                 // RecruitEnum::Hubert.get_recruit(),
@@ -203,6 +205,13 @@ impl Default for PlayerStats {
             tuto: Tuto::default(),
         }
     }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum ItemChangeEnum {
+    Add(Uuid),
+    Update(Uuid),
+    Remove(Uuid),
 }
 
 pub const SKIP_TUTO: bool = false;
@@ -245,7 +254,7 @@ impl PlayerStats {
     }
 
     pub fn add_item(&mut self, item: ItemEnum) {
-        match item {
+        match item.clone() {
             ItemEnum::Scroll(scroll, quantity) => {
                 let scroll_id = scroll.id;
                 if self.inventory.iter().any(|item| match item {
@@ -263,9 +272,9 @@ impl PlayerStats {
                     self.inventory.push(ItemEnum::Scroll(scroll, quantity));
                 }
             }
-            _ => {
+            item => {
                 if self.inventory.len() < self.max_inventory_size {
-                    self.inventory.push(item);
+                    self.inventory.push(item.clone());
                 }
             }
         }
@@ -292,6 +301,16 @@ impl PlayerStats {
             .find(|recruit| recruit.id == recruit_id)
         {
             recruit.equip_item(item);
+        }
+    }
+
+    pub fn desequip_item_to_recruit(&mut self, recruit_id: Uuid, item: &ItemEnum) {
+        if let Some(recruit) = self
+            .recruits
+            .iter_mut()
+            .find(|recruit| recruit.id == recruit_id)
+        {
+            recruit.desequip_item(item);
         }
     }
 
@@ -382,6 +401,14 @@ impl PlayerStats {
     pub fn remove_recruit_by_id(&mut self, id: Uuid) {
         if let Some(recruit_index) = self.recruits.iter().position(|recruit| recruit.id == id) {
             self.recruits.remove(recruit_index);
+        }
+    }
+
+    pub fn heal_all_injured_recruits(&mut self) {
+        for recruit in self.recruits.iter_mut() {
+            if recruit.state == RecruitStateEnum::Injured {
+                recruit.state = RecruitStateEnum::Available;
+            }
         }
     }
 }

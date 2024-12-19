@@ -1,5 +1,6 @@
-use crate::structs::{
-    general_structs::TutoMessagesModalVisible, trigger_structs::NotificationToastTrigger,
+use crate::{
+    structs::general_structs::TutoMessagesModalVisible,
+    ui::hud_folder::mayor_notification_toast::NotificationToastTrigger,
 };
 use bevy::prelude::*;
 

@@ -1,4 +1,4 @@
-use crate::structs::{player_stats::PlayerStats, trigger_structs::ToxicityCountTrigger};
+use crate::{structs::player_stats::PlayerStats, ui::hud_folder::right_hud::ToxicityCountTrigger};
 use bevy::prelude::{Entity, Res, Single, Text, TextUiWriter, With};
 
 pub fn update_toxicity_counter(

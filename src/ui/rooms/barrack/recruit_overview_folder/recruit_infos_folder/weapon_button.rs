@@ -2,13 +2,18 @@ use crate::{
     enums::TextureAtlasLayoutEnum,
     my_assets::get_item_atlas_path,
     structs::{
-        equipments::ItemEnum, player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
-        trigger_structs::ItemInInventoryTrigger,
+        equipments::{ItemEnum, Weapon},
+        general_structs::ItemInInventoryTrigger,
+        player_stats::PlayerStats,
+        recruits::SelectedRecruitForEquipment,
     },
     utils::{get_item_image_atlas_index, get_item_tooltip_description, get_layout},
 };
-use bevy::prelude::*;
+use bevy::{prelude::*, ui::widget::NodeImageMode};
 use pyri_tooltip::{Tooltip, TooltipActivation};
+
+#[derive(Component)]
+pub struct DesequipWeaponButtonTrigger(pub Option<Weapon>);
 
 pub fn weapon_button(
     player_stats: &Res<PlayerStats>,
@@ -32,7 +37,7 @@ pub fn weapon_button(
             },
             BorderColor(Color::BLACK),
             BorderRadius::all(Val::Px(10.)),
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/equipments/empty_inventory_slot.png"),
                 ..default()
             },
@@ -46,7 +51,7 @@ pub fn weapon_button(
     let recruit_inventory = recruit.recruit_inventory;
     let recruit_weapon = recruit_inventory.weapon;
     if let Some(recruit_weapon) = recruit_weapon {
-        let item = ItemEnum::Weapon(recruit_weapon);
+        let item = ItemEnum::Weapon(recruit_weapon.clone());
         let item_image_atlas_index = get_item_image_atlas_index(&item);
         let item_layout = get_layout(TextureAtlasLayoutEnum::Item(&item));
         let tooltip_text = get_item_tooltip_description(&item);
@@ -64,16 +69,18 @@ pub fn weapon_button(
             },
             BorderColor(Color::BLACK),
             BorderRadius::all(Val::Px(10.)),
-            UiImage::from_atlas_image(
+            ImageNode::from_atlas_image(
                 my_assets.load(item_atlas_path),
                 TextureAtlas {
                     index: item_image_atlas_index.into(),
                     layout: texture_atlas_layouts.add(item_layout),
                 },
-            ),
-            ItemInInventoryTrigger(None),
+            )
+            .with_mode(NodeImageMode::Stretch),
+            ItemInInventoryTrigger(Some(item)),
             Tooltip::cursor(t!(tooltip_text).to_string())
                 .with_activation(TooltipActivation::IMMEDIATE),
+            DesequipWeaponButtonTrigger(Some(recruit_weapon)),
         ));
     } else {
         // Empty weapon button
@@ -88,7 +95,7 @@ pub fn weapon_button(
             },
             BorderColor(Color::BLACK),
             BorderRadius::all(Val::Px(10.)),
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/equipments/empty_inventory_slot.png"),
                 ..default()
             },

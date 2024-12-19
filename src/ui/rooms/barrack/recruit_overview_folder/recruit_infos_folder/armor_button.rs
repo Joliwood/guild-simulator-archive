@@ -2,13 +2,18 @@ use crate::{
     enums::TextureAtlasLayoutEnum,
     my_assets::get_item_atlas_path,
     structs::{
-        equipments::ItemEnum, player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
-        trigger_structs::ItemInInventoryTrigger,
+        equipments::{Armor, ItemEnum},
+        general_structs::ItemInInventoryTrigger,
+        player_stats::PlayerStats,
+        recruits::SelectedRecruitForEquipment,
     },
     utils::{get_item_image_atlas_index, get_item_tooltip_description, get_layout},
 };
-use bevy::prelude::*;
+use bevy::{prelude::*, ui::widget::NodeImageMode};
 use pyri_tooltip::{Tooltip, TooltipActivation};
+
+#[derive(Component)]
+pub struct DesequipArmorButtonTrigger(pub Option<Armor>);
 
 pub fn armor_button(
     player_stats: &Res<PlayerStats>,
@@ -18,6 +23,7 @@ pub fn armor_button(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let recruit_id = selected_recruit_for_equipment.get_id();
+    let selected_recruit_armor = selected_recruit_for_equipment.get_armor();
 
     if recruit_id.is_none() {
         // Empty armor button
@@ -32,7 +38,7 @@ pub fn armor_button(
             },
             BorderColor(Color::BLACK),
             BorderRadius::all(Val::Px(10.)),
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/equipments/empty_inventory_slot.png"),
                 ..default()
             },
@@ -62,18 +68,21 @@ pub fn armor_button(
                 margin: UiRect::all(Val::Px(5.)),
                 ..default()
             },
-            UiImage::from_atlas_image(
+            ImageNode::from_atlas_image(
                 my_assets.load(item_atlas_path),
                 TextureAtlas {
                     index: item_image_atlas_index.into(),
                     layout: texture_atlas_layouts.add(item_layout),
                 },
-            ),
+            )
+            .with_mode(NodeImageMode::Stretch),
             BorderColor(Color::BLACK),
             BorderRadius::all(Val::Px(10.)),
-            ItemInInventoryTrigger(None),
+            // ItemInInventoryTrigger(None),
+            ItemInInventoryTrigger(Some(item)),
             Tooltip::cursor(t!(tooltip_text).to_string())
                 .with_activation(TooltipActivation::IMMEDIATE),
+            DesequipArmorButtonTrigger(selected_recruit_armor),
         ));
     } else {
         // Empty armor button
@@ -86,7 +95,7 @@ pub fn armor_button(
                 margin: UiRect::all(Val::Px(5.)),
                 ..default()
             },
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/equipments/empty_inventory_slot.png"),
                 ..default()
             },

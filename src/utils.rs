@@ -175,6 +175,17 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
                 description.push_str(&format!("\n{}: {}", t!("defense"), defense));
             }
 
+            if !weapon.optimized_for.0.is_empty() {
+                description.push_str(&format!(
+                    "\n\n{} :",
+                    t!("tooltip_optimized_for", points = weapon.optimized_for.1),
+                ));
+
+                for classe in &weapon.optimized_for.0 {
+                    description.push_str(&format!("\n- {}", classe));
+                }
+            }
+
             description.push_str(&format!(
                 "\n\n{}: {} {} {} G",
                 t!("price"),
@@ -195,6 +206,17 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
 
             if let Some(defense) = armor.defense {
                 description.push_str(&format!("\n{}: {}", t!("defense"), defense));
+            }
+
+            if !armor.optimized_for.0.is_empty() {
+                description.push_str(&format!(
+                    "\n\n{} :",
+                    t!("tooltip_optimized_for", points = armor.optimized_for.1),
+                ));
+
+                for classe in &armor.optimized_for.0 {
+                    description.push_str(&format!("\n- {}", classe));
+                }
             }
 
             description.push_str(&format!(
@@ -415,7 +437,7 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
         TextureAtlasLayoutEnum::Scroll => {
             return TextureAtlasLayout::from_grid(
                 UVec2::new(400, 400),
-                8,
+                9,
                 1,
                 Some(UVec2::new(0, 0)),
                 Some(UVec2::new(0, 0)),
@@ -470,7 +492,7 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
             ItemLootEnum::Scroll(_) => {
                 return TextureAtlasLayout::from_grid(
                     UVec2::new(400, 400),
-                    8,
+                    9,
                     1,
                     Some(UVec2::new(0, 0)),
                     Some(UVec2::new(0, 0)),

@@ -2,8 +2,8 @@ use crate::{
     enums::TextureAtlasLayoutEnum,
     my_assets::get_item_atlas_path,
     structs::{
-        equipments::ItemEnum, player_stats::PlayerStats, recruits::RecruitStats,
-        trigger_structs::ItemInInventoryTrigger,
+        equipments::ItemEnum, general_structs::ItemInInventoryTrigger, player_stats::PlayerStats,
+        recruits::RecruitStats,
     },
     utils::{get_item_image_atlas_index, get_item_tooltip_description, get_layout},
 };
@@ -43,7 +43,7 @@ pub fn scroll_button(
                 },
                 BorderColor(Color::BLACK),
                 BorderRadius::all(Val::Px(10.)),
-                UiImage::from_atlas_image(
+                ImageNode::from_atlas_image(
                     my_assets.load(item_atlas_path),
                     TextureAtlas {
                         index: item_image_atlas_index.into(),
@@ -71,7 +71,7 @@ pub fn scroll_button(
                 },
                 BorderColor(Color::BLACK),
                 BorderRadius::all(Val::Px(10.)),
-                UiImage {
+                ImageNode {
                     image: my_assets.load("images/equipments/empty_inventory_slot.png"),
                     ..default()
                 },

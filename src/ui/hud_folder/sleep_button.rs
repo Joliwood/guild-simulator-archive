@@ -1,28 +1,33 @@
 use crate::{
     enums::{ColorPaletteEnum, TextureAtlasLayoutEnum},
     my_assets::FONT_FIRA,
-    structs::{
-        player_stats::PlayerStats,
-        trigger_structs::{PlayerDayTrigger, RealTimeDayProgressBarTrigger, SleepButtonTrigger},
-    },
+    structs::player_stats::PlayerStats,
     utils::get_layout,
 };
-use bevy::prelude::*;
+use bevy::{prelude::*, ui::widget::NodeImageMode};
+use pyri_tooltip::{Tooltip, TooltipActivation};
+
+#[derive(Debug, Component)]
+pub struct SleepButtonTrigger;
+
+#[derive(Component)]
+pub struct PlayerDayTrigger;
+
+#[derive(Component)]
+pub struct RealTimeDayProgressBarTrigger;
 
 pub fn sleep_button(
     commands: &mut Commands,
     my_assets: &Res<AssetServer>,
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
-    // day_time: &Res<DayTime>,
 ) {
     let sleep_button_layout = get_layout(TextureAtlasLayoutEnum::SleepButton);
     let sleep_button_atlas_layout = texture_atlas_layouts.add(sleep_button_layout);
-    // let text_hello = t!("hello");
 
     commands
         .spawn((
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/hud/sleep_button_container2.png"),
                 ..default()
             },
@@ -34,32 +39,33 @@ pub fn sleep_button(
                 left: Val::Px(0.),
                 ..default()
             },
-            GlobalZIndex(3),
+            GlobalZIndex(4),
         ))
         .with_children(|parent| {
-            parent
-                .spawn((
-                    Button,
-                    UiImage::from_atlas_image(
-                        my_assets.load("images/hud/sleep_button_atlas.png"),
-                        TextureAtlas {
-                            index: 1,
-                            layout: sleep_button_atlas_layout.clone(),
-                        },
-                    )
-                    .with_mode(NodeImageMode::Stretch),
-                    Node {
-                        width: Val::Px(70.),
-                        height: Val::Px(70.),
-                        border: UiRect::all(Val::Px(3.)),
-                        ..default()
+            parent.spawn((
+                Name::new("Sleep Button Icon"),
+                Button,
+                ImageNode::from_atlas_image(
+                    my_assets.load("images/hud/sleep_button_atlas.png"),
+                    TextureAtlas {
+                        index: 1,
+                        layout: sleep_button_atlas_layout.clone(),
                     },
-                    GlobalZIndex(2),
-                    BorderColor(Color::NONE),
-                    BorderRadius::MAX,
-                    SleepButtonTrigger,
-                ))
-                .insert(Name::new("Sleep Button Icon"));
+                )
+                .with_mode(NodeImageMode::Stretch),
+                Node {
+                    width: Val::Px(70.),
+                    height: Val::Px(70.),
+                    border: UiRect::all(Val::Px(3.)),
+                    ..default()
+                },
+                GlobalZIndex(3),
+                BorderColor(Color::NONE),
+                BorderRadius::MAX,
+                SleepButtonTrigger,
+                Tooltip::cursor(t!("sleep_infos_tooltip").to_string())
+                    .with_activation(TooltipActivation::LONG_DELAY),
+            ));
 
             parent.spawn((
                 Text::new(format!("{} : {}", t!("day"), player_stats.day)),
@@ -77,11 +83,10 @@ pub fn sleep_button(
                 TextColor(Color::WHITE),
                 PlayerDayTrigger,
             ));
-            // .insert(PlayerDayTrigger);
 
             // Progress bar
             parent.spawn((
-                UiImage::solid_color(ColorPaletteEnum::Success.as_color()),
+                ImageNode::solid_color(ColorPaletteEnum::Success.as_color()),
                 Node {
                     position_type: PositionType::Absolute,
                     bottom: Val::Px(0.),

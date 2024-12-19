@@ -1,4 +1,7 @@
-use super::discussion_event_doc::discussion_event_doc;
+use super::{
+    discussion_event_doc::discussion_event_doc,
+    spontaneous_application_event_doc::SelectAnswerTrigger,
+};
 use crate::{
     content::daily_events::{
         discussions::get_daily_discussion, spontaneous_applications::get_spontaneous_application,
@@ -7,7 +10,6 @@ use crate::{
         daily_events_folder::daily_events::{DailyEvent, DailyEventTypeEnum, DailyEvents},
         general_structs::DailyEventsModalVisible,
         player_stats::PlayerStats,
-        trigger_structs::SelectAnswerTrigger,
     },
     ui::modals::daily_events::spontaneous_application_event_doc::spontaneous_application_event_doc,
 };
@@ -38,7 +40,7 @@ pub fn daily_events_modal(
         && daily_events_modal_visibility.0
         && daily_events_len > 0
     {
-        // let container_image: Handle<Image> =
+        // let container_image: Handle<ImageNode> =
         //     asset_server.load("images/rooms/barrack/inventory_container.png");
 
         let last_daily_event: &DailyEvent = match daily_events.get_last_daily_event() {

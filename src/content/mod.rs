@@ -8,5 +8,6 @@ pub mod daily_events {
     pub mod spontaneous_applications;
 }
 pub mod constants;
+pub mod maps;
 pub mod missions;
 pub mod recruits;

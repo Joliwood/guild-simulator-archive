@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+
 use crate::structs::equipments::{BonusEnum, Scroll};
 
 #[allow(clippy::enum_variant_names)]
@@ -8,10 +9,8 @@ pub enum ScrollsEnum {
     /// - Mission 3
     ScrollOfRawAttackI,
 
-    // TODO - Déplacer sur la dernière ou avant dernière mission pour farmer les premières, c'est plus logique
     /// ## Integrated in :
-    /// - Mission 2
-    /// - Mission 3
+    /// - Mission 6
     ScrollOfTheMiserI,
 
     /// ## Integrated in :
@@ -19,7 +18,7 @@ pub enum ScrollsEnum {
     ScrollOfTheResearcherI,
 
     /// ## Integrated in :
-    /// - Mission 1
+    /// - Mission 2
     ScrollOfExperienceI,
 
     /// ## Integrated in :
@@ -27,7 +26,7 @@ pub enum ScrollsEnum {
     ScrollOfReinforcementI,
 
     /// ## Integrated in :
-    /// - Mission 6
+    /// -
     ScrollOfNaturalGrowthI,
 
     /// ## Integrated in :
@@ -35,8 +34,12 @@ pub enum ScrollsEnum {
     ScrollOfGaladornFailedPower,
 
     /// ## Integrated in :
-    /// TODO
-    ScrollOfRawNaturalDefense,
+    /// - Mission 1
+    ScrollOfRawNaturalDefenseI,
+
+    /// ## Integrated in :
+    /// - Mission 3
+    ScrollOfTheOutstandingFighterI,
 }
 
 impl ScrollsEnum {
@@ -47,7 +50,7 @@ impl ScrollsEnum {
                 id: 1,
                 image_atlas_index: 0,
                 name: t!("scroll1_name").to_string(),
-                price: 5,
+                price: 8,
                 bonus: vec![BonusEnum::RawAttack(10)],
                 ..Default::default()
             },
@@ -55,7 +58,7 @@ impl ScrollsEnum {
                 id: 2,
                 image_atlas_index: 1,
                 name: t!("scroll2_name").to_string(),
-                price: 5,
+                price: 4,
                 bonus: vec![BonusEnum::Gold(5)],
                 ..Default::default()
             },
@@ -63,7 +66,7 @@ impl ScrollsEnum {
                 id: 3,
                 image_atlas_index: 2,
                 name: t!("scroll3_name").to_string(),
-                price: 5,
+                price: 6,
                 bonus: vec![BonusEnum::LuckyLoot(5)],
                 ..Default::default()
             },
@@ -99,12 +102,20 @@ impl ScrollsEnum {
                 bonus: vec![BonusEnum::RawAttack(1), BonusEnum::Collector(65)],
                 ..Default::default()
             },
-            ScrollsEnum::ScrollOfRawNaturalDefense => Scroll {
+            ScrollsEnum::ScrollOfRawNaturalDefenseI => Scroll {
                 id: 8,
                 image_atlas_index: 7,
                 name: t!("scroll8_name").to_string(),
                 price: 7,
                 bonus: vec![BonusEnum::NaturalRawDefense(5)],
+                ..Default::default()
+            },
+            ScrollsEnum::ScrollOfTheOutstandingFighterI => Scroll {
+                id: 9,
+                image_atlas_index: 8,
+                name: t!("scroll9_name").to_string(),
+                price: 12,
+                bonus: vec![BonusEnum::RawAttack(3), BonusEnum::NaturalRawDefense(3)],
                 ..Default::default()
             },
         }

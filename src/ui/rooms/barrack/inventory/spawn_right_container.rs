@@ -16,7 +16,8 @@ pub fn spawn_right_container(
     // Container for the inventory
     parent
         .spawn((
-            UiImage {
+            Name::new("Room barrack > inventory"),
+            ImageNode {
                 image: my_assets.load("images/rooms/barrack/inventory_container.png"),
                 ..default()
             },
@@ -33,7 +34,6 @@ pub fn spawn_right_container(
                 ..default()
             },
         ))
-        .insert(Name::new("Room barrack > inventory"))
         .with_children(|parent| {
             parent.spawn((
                 Text::new(t!("inventory")),

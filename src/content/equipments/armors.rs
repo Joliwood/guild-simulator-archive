@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+
 use crate::{
     enums::{ClassEnum, ItemRaretyEnum},
     structs::equipments::Armor,
@@ -27,7 +28,7 @@ pub enum ArmorsEnum {
     MakeshiftVest,
 
     /// ## Integrated in :
-    /// - Daily discussion 10
+    /// - Daily discussion 9
     TravelToga,
 }
 
@@ -57,7 +58,7 @@ impl ArmorsEnum {
                 id: 3,
                 image_atlas_index: 2,
                 name: t!("armor3_name").to_string(),
-                optimized_for: (vec![ClassEnum::Mage], (5)),
+                optimized_for: (vec![ClassEnum::Mage], (15)),
                 defense: Some(4),
                 price: 10,
                 rarety: ItemRaretyEnum::Common,

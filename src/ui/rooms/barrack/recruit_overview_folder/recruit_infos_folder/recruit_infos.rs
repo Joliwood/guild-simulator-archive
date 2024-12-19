@@ -5,6 +5,7 @@ use crate::{
     enums::ColorPaletteEnum,
     my_assets::FONT_FIRA,
     structs::{player_stats::PlayerStats, recruits::SelectedRecruitForEquipment},
+    ui::rooms::barrack::recruit_overview_folder::recruit_overview::RecruitOverviewChildTrigger,
 };
 use bevy::prelude::*;
 
@@ -17,7 +18,8 @@ pub fn recruit_infos(
 ) {
     parent
         .spawn((
-            UiImage {
+            Name::new("Barrack > recruit overview > recruit infos"),
+            ImageNode {
                 image: my_assets.load("images/rooms/barrack/inventory_container.png"),
                 ..default()
             },
@@ -36,8 +38,8 @@ pub fn recruit_infos(
                 ..default()
             },
             GlobalZIndex(2),
+            RecruitOverviewChildTrigger,
         ))
-        .insert(Name::new("Barrack > recruit overview > recruit infos"))
         .with_children(|parent| {
             // Top container (holds Weapons and Armor buttons)
             parent

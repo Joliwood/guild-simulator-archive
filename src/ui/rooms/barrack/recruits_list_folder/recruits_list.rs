@@ -2,6 +2,12 @@ use super::recruit_card::recruit_card;
 use crate::{enums::TextureAtlasLayoutEnum, structs::player_stats::PlayerStats, utils::get_layout};
 use bevy::prelude::*;
 
+#[derive(Component)]
+pub struct UpdateBarrackRecruitListParentTrigger;
+
+#[derive(Component)]
+pub struct UpdateBarrackRecruitListChildrenTrigger;
+
 /// Spawns the left container, displaying the player's recruits.
 pub fn spawn_left_container(
     parent: &mut ChildBuilder,
@@ -27,7 +33,7 @@ pub fn spawn_left_container(
             // Background image
             left_container
                 .spawn((
-                    UiImage {
+                    ImageNode {
                         image: my_assets.load("images/rooms/barrack/inventory_container.png"),
                         ..default()
                     },
@@ -49,16 +55,19 @@ pub fn spawn_left_container(
                 ))
                 .with_children(|parent| {
                     parent
-                        .spawn(Node {
-                            position_type: PositionType::Absolute,
-                            flex_direction: FlexDirection::Column,
-                            row_gap: Val::Px(5.0),
-                            display: Display::Flex,
-                            width: Val::Percent(88.),
-                            height: Val::Percent(89.),
-                            overflow: Overflow::scroll_y(),
-                            ..default()
-                        })
+                        .spawn((
+                            Node {
+                                position_type: PositionType::Absolute,
+                                flex_direction: FlexDirection::Column,
+                                row_gap: Val::Px(5.0),
+                                display: Display::Flex,
+                                width: Val::Percent(88.),
+                                height: Val::Percent(89.),
+                                overflow: Overflow::scroll_y(),
+                                ..default()
+                            },
+                            UpdateBarrackRecruitListParentTrigger,
+                        ))
                         .with_children(|parent| {
                             // Barrack room > left container > recruit buttons
                             for recruit in player_stats.recruits.iter() {

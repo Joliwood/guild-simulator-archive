@@ -40,7 +40,6 @@ pub fn select_discussion_answer(
 
         match *interaction {
             Interaction::Pressed => {
-                // info!("Daily events : {:?}", daily_events);
                 if let Some(discussion) = discussion {
                     daily_events.remove_daily_discussion_by_id(discussion.id);
                 } else if let Some(application) = spontaneous_application {
@@ -56,11 +55,9 @@ pub fn select_discussion_answer(
                 }
             }
             Interaction::Hovered => {
-                // window.cursor.icon = CursorIcon::Pointer;
                 background_color.0 = Color::srgba(0., 0., 0., 0.4);
             }
             Interaction::None => {
-                // window.cursor.icon = CursorIcon::Default;
                 background_color.0 = Color::srgba(0., 0., 0., 0.5);
             }
         };

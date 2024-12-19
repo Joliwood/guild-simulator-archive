@@ -1,4 +1,4 @@
-use crate::structs::{player_stats::PlayerStats, trigger_structs::PlayerDayTrigger};
+use crate::{structs::player_stats::PlayerStats, ui::hud_folder::sleep_button::PlayerDayTrigger};
 use bevy::prelude::{Entity, Res, Single, Text, TextUiWriter, With};
 
 pub fn update_day_counter(

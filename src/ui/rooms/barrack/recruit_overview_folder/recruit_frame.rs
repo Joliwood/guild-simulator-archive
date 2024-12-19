@@ -4,6 +4,14 @@ use crate::{
 };
 use bevy::prelude::*;
 
+use super::recruit_overview::RecruitOverviewChildTrigger;
+
+#[derive(Component)]
+pub struct RecruitFrameTrigger;
+
+#[derive(Component)]
+pub struct RecruitFrameTextTrigger;
+
 pub fn recruit_frame(
     parent: &mut ChildBuilder,
     my_assets: &Res<AssetServer>,
@@ -34,7 +42,8 @@ pub fn recruit_frame(
 
     parent
         .spawn((
-            UiImage {
+            Name::new("Barrack > recruit overview > recruit frame"),
+            ImageNode {
                 image: my_assets.load("images/rooms/barrack/recruit_frame.png"),
                 ..default()
             },
@@ -44,12 +53,12 @@ pub fn recruit_frame(
                 ..default()
             },
             GlobalZIndex(2),
+            RecruitOverviewChildTrigger,
         ))
-        .insert(Name::new("Barrack > recruit overview > recruit frame"))
         .with_children(|parent| {
             // if let Some(selected_recruit_for_equipment_data) = selected_recruit_for_equipment {
             parent.spawn((
-                Text::new(t!(selected_recruit_for_equipment_name)),
+                Text::new(selected_recruit_for_equipment_name),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 18.0,
@@ -67,10 +76,11 @@ pub fn recruit_frame(
                     ..Default::default()
                 },
                 GlobalZIndex(3),
+                RecruitFrameTextTrigger,
             ));
 
             parent.spawn((
-                UiImage::from_atlas_image(
+                ImageNode::from_atlas_image(
                     my_assets.load("images/recruits/recruit_picture_atlas.png"),
                     TextureAtlas {
                         layout: recruit_texture_atlas_layout.clone(),
@@ -84,6 +94,7 @@ pub fn recruit_frame(
                     ..default()
                 },
                 GlobalZIndex(1),
+                RecruitFrameTrigger,
             ));
             // }
         });

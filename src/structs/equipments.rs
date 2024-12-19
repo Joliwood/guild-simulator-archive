@@ -106,6 +106,8 @@ pub struct Weapon {
     pub attack: Option<u32>,
     pub defense: Option<u32>,
     pub rarety: ItemRaretyEnum,
+    /// The best bonus for the attack, it adds a bonus in % for attack (recruit
+    /// + raw bonus + equipments)
     pub optimized_for: (Vec<ClassEnum>, u32),
 }
 
@@ -118,6 +120,8 @@ pub struct Armor {
     pub rarety: ItemRaretyEnum,
     pub attack: Option<u32>,
     pub defense: Option<u32>,
+    /// The best bonus for the attack, it adds a bonus in % for attack (recruit
+    /// + raw bonus + equipments)
     pub optimized_for: (Vec<ClassEnum>, u32),
 }
 

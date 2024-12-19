@@ -1,9 +1,12 @@
 use crate::{
     structs::{
         general_structs::MissionModalVisible, missions::SelectedMission,
-        recruits::SelectedRecruitForMission, trigger_structs::CloseMissionModalTrigger,
+        recruits::SelectedRecruitForMission,
     },
-    ui::ui_constants::WOOD_COLOR,
+    ui::{
+        modals::mission_order_modal_folder::mission_order_modal::CloseMissionModalTrigger,
+        ui_constants::WOOD_COLOR,
+    },
 };
 use bevy::prelude::*;
 

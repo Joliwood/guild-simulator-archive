@@ -1,32 +1,34 @@
 use crate::{
     enums::RecruitStateEnum,
     structs::{
-        general_structs::UniqueId,
         missions::{Missions, SelectedMission},
         player_stats::PlayerStats,
-        recruits::{RecruitStats, SelectedRecruitForMission},
+        recruits::SelectedRecruitForMission,
     },
+    ui::rooms::command_room::map_recruit_card::SelectRecruitForMissionTrigger,
 };
 use bevy::prelude::*;
 
 pub fn select_recruit_for_mission_button(
     mut interaction_query: Query<
-        (&Interaction, &mut BorderColor, &UniqueId, &RecruitStats),
+        (
+            &Interaction,
+            &mut BorderColor,
+            &SelectRecruitForMissionTrigger,
+        ),
         Changed<Interaction>,
     >,
-    mut windows: Query<&mut Window>,
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
     mut selected_mission: ResMut<SelectedMission>,
     player_stats: Res<PlayerStats>,
     mut missions: ResMut<Missions>,
 ) {
-    let _window = windows.single_mut();
-
-    for (interaction, mut border_color, unique_id, recruit) in &mut interaction_query {
-        let recruit_state = recruit.clone().state;
-        if unique_id.0 == "map_recruit_button"
-            && recruit_state != RecruitStateEnum::InMission
-            && recruit_state != RecruitStateEnum::WaitingReportSignature
+    for (interaction, mut border_color, trigger) in &mut interaction_query {
+        let recruit = trigger.0.clone();
+        let recruit_state = &recruit.state;
+        if recruit_state != &RecruitStateEnum::InMission
+            && recruit_state != &RecruitStateEnum::WaitingReportSignature
+            && recruit_state != &RecruitStateEnum::Injured
         {
             match *interaction {
                 Interaction::Pressed => {

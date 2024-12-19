@@ -5,12 +5,14 @@ use crate::{
     structs::{
         general_structs::{DayTime, NotificationCount},
         player_stats::PlayerStats,
-        trigger_structs::RoomButtonTrigger,
     },
     utils::get_layout,
 };
 use bevy::prelude::*;
 use pyri_tooltip::Tooltip;
+
+#[derive(Component)]
+pub struct RoomButtonTrigger(pub RoomEnum);
 
 pub fn hud(
     my_assets: Res<AssetServer>,
@@ -27,7 +29,8 @@ pub fn hud(
     commands
         // Main Container
         .spawn((
-            UiImage {
+            Name::new("HUD"),
+            ImageNode {
                 image: my_assets.load("images/hud/hud4.png"),
                 ..default()
             },
@@ -40,9 +43,8 @@ pub fn hud(
                 display: Display::Flex,
                 ..default()
             },
-            GlobalZIndex(3),
+            GlobalZIndex(4),
         ))
-        .insert(Name::new("HUD"))
         // Left Container
         .with_children(|parent| {
             left_hud(
@@ -54,21 +56,23 @@ pub fn hud(
 
             // Middle Container
             parent
-                .spawn(Node {
-                    display: Display::Flex,
-                    flex_direction: FlexDirection::Row,
-                    justify_content: JustifyContent::SpaceAround,
-                    align_items: AlignItems::Center,
-                    height: Val::Px(35.0),
-                    width: Val::Px(165.0),
-                    margin: UiRect {
-                        right: Val::Px(2.),
+                .spawn((
+                    Name::new("HUD > Middle Container"),
+                    Node {
+                        display: Display::Flex,
+                        flex_direction: FlexDirection::Row,
+                        justify_content: JustifyContent::SpaceAround,
+                        align_items: AlignItems::Center,
+                        height: Val::Px(35.0),
+                        width: Val::Px(165.0),
+                        margin: UiRect {
+                            right: Val::Px(2.),
+                            ..default()
+                        },
+                        column_gap: Val::Px(7.),
                         ..default()
                     },
-                    column_gap: Val::Px(7.),
-                    ..default()
-                })
-                .insert(Name::new("Middle Container"))
+                ))
                 .with_children(|middle_container| {
                     middle_container
                         .spawn((
@@ -79,7 +83,7 @@ pub fn hud(
                                 position_type: PositionType::Relative,
                                 ..default()
                             },
-                            UiImage::from_atlas_image(
+                            ImageNode::from_atlas_image(
                                 my_assets.load("images/hud/hud_icon_atlas.png"),
                                 TextureAtlas {
                                     index: 4,
@@ -106,7 +110,7 @@ pub fn hud(
                                 height: Val::Px(30.),
                                 ..default()
                             },
-                            UiImage::from_atlas_image(
+                            ImageNode::from_atlas_image(
                                 my_assets.load("images/hud/hud_icon_atlas.png"),
                                 TextureAtlas {
                                     index: 1,
@@ -133,7 +137,7 @@ pub fn hud(
                                 height: Val::Px(30.),
                                 ..default()
                             },
-                            UiImage::from_atlas_image(
+                            ImageNode::from_atlas_image(
                                 my_assets.load("images/hud/hud_icon_atlas.png"),
                                 TextureAtlas {
                                     index: 2,
@@ -166,6 +170,5 @@ pub fn hud(
         &my_assets,
         &player_stats,
         &mut texture_atlas_layouts,
-        // &day_time,
     );
 }
